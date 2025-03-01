@@ -1,3 +1,19 @@
+### **Core Object-Oriented Design Principles**  
+1. [Single Responsibility Principle (SRP)](#single-responsibility-principle-srp)  
+2. [Open/Closed Principle (OCP)](#openclosed-principle-ocp)  
+3. [Liskov Substitution Principle (LSP)](#liskov-substitution-principle-lsp)  
+4. [Interface Segregation Principle (ISP)](#interface-segregation-principle-isp)  
+5. [Dependency Inversion Principle (DIP)](#dependency-inversion-principle-dip)  
+6. [DRY (Don’t Repeat Yourself)](#dry-dont-repeat-yourself)  
+7. [Composition Over Inheritance](#composition-over-inheritance)  
+
+---
+
+### **Additional Design Principles**  
+1. [Keep It Simple, Stupid (KISS)](#keep-it-simple-stupid-kiss)  
+2. [You Aren’t Gonna Need It (YAGNI)](#you-arent-gonna-need-it-yagni)  
+
+---
 
 ## **1. Single Responsibility Principle (SRP)**  
 **Definition**: A class should have only one reason to change (i.e., one responsibility).  
