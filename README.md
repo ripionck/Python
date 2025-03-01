@@ -21,7 +21,7 @@ A collection of notes on core Python concepts. Explore the topics below:
 ## Intermediate Topics
 - [Error Handling](./Error%20Handling.md)
 - [File Handling](./File%20Handling.md)
-- [Input/Output](./Input%5COutput.md) 🔍 *Note: Verify filename if backslash is intentional*
+- [Input/Output](./Input%5COutput.md) 
 - [Modules and Packages](./Modules%20and%20Packages.md)
 - [Decorator](./Decorator.md)
 - [Generators and Iterators](./Generators%20and%20Iterators.md)
@@ -34,9 +34,3 @@ A collection of notes on core Python concepts. Explore the topics below:
 
 ## Built-in Features
 - [Built-in Functions](./Built-in%20Functions.md)
-
----
-
-📁 **Repository Structure**  
-*All files are in the root directory. Links use spaces for readability (GitHub handles them automatically).  
-If issues arise, replace spaces with `%20` in URLs.*
