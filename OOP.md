@@ -1,212 +1,281 @@
-## **1. Classes & Objects**
-### **Class Instantiation & `self`**
+## Object-Oriented Programming (OOP) concepts
+
+---
+## **1. Classes and Objects**
+### **Definition**
+- **Class**: A blueprint for creating objects (e.g., "Car").
+- **Object**: An instance of a class (e.g., "Toyota Camry").
+- **`self`**: Refers to the instance itself (access attributes/methods).
+- **Data Attributes**: Variables bound to an object (e.g., `color`, `speed`).
+- **Methods**: Functions defined within a class (e.g., `accelerate()`).
+
+### **Code Example**
 ```python
-class Dog:
-    # Class Variable (shared across instances)
-    species = "Canis familiaris"
+class Car:
+    # Class variable (shared by all instances)
+    wheels = 4
 
-    # Constructor (__init__ method)
-    def __init__(self, name, age):
-        # Instance Variables (data attributes)
-        self.name = name
-        self.age = age
+    def __init__(self, make, model, color):
+        # Instance variables
+        self.make = make
+        self.model = model
+        self.color = color
+        self.speed = 0
 
-    # Instance Method (self refers to the object)
-    def description(self):
-        return f"{self.name} is {self.age} years old"
+    # Instance method
+    def accelerate(self, increment):
+        self.speed += increment
 
-    # __str__ for user-friendly string
+    # String representation for users
     def __str__(self):
-        return self.description()
+        return f"{self.color} {self.make} {self.model}"
 
-    # __repr__ for unambiguous representation
+    # Unambiguous representation for developers
     def __repr__(self):
-        return f"Dog(name={self.name!r}, age={self.age!r})"
+        return f"Car(make={self.make}, model={self.model}, color={self.color})"
 
-# Instantiate
-buddy = Dog("Buddy", 5)
-print(buddy)          # Uses __str__: "Buddy is 5 years old"
-print(repr(buddy))    # Uses __repr__: Dog(name='Buddy', age=5)
+# Instantiation
+my_car = Car("Toyota", "Camry", "Blue")
+print(my_car)        # Output: Blue Toyota Camry (uses __str__)
+print(repr(my_car))  # Output: Car(make=Toyota, model=Camry, color=Blue)
 ```
 
-### **UML Representation (Simplified)**
+### **UML Diagram**
 ```
 +------------------+
-|      Dog         |
+|      Car         |
 +------------------+
-| - name: str      |
-| - age: int       |
-| + species: str   |
+| wheels: int = 4  |
+| make: str        |
+| model: str       |
+| color: str       |
+| speed: int       |
 +------------------+
-| + __init__()     |
-| + description()  |
-| + __str__()      |
-| + __repr__()     |
+| __init__()       |
+| accelerate()     |
+| __str__()        |
+| __repr__()       |
 +------------------+
 ```
 
 ---
 
 ## **2. Inheritance**
-### **Base & Derived Classes**
+### **Definition**
+- **Inheritance**: Derive a new class (child) from an existing class (parent).
+- **Method Overriding**: Redefine a parent method in the child class.
+- **`super()`**: Access parent class methods/constructors.
+- **Abstract Base Class (ABC)**: Define a template for derived classes.
+
+### **Code Example**
 ```python
-class Animal:  # Base class
+from abc import ABC, abstractmethod
+
+# Abstract Base Class
+class Vehicle(ABC):
     def __init__(self, name):
         self.name = name
 
-    def speak(self):
-        raise NotImplementedError("Subclass must implement abstract method")
-
-class Cat(Animal):  # Derived class
-    def speak(self):  # Override method
-        return "Meow!"
-
-    def climb(self):  # Extend with new method
-        return f"{self.name} climbs a tree"
-
-# Abstract Base Class (ABC)
-from abc import ABC, abstractmethod
-class Bird(ABC):
     @abstractmethod
-    def fly(self):
+    def move(self):
         pass
 
-class Sparrow(Bird):
-    def fly(self):  # Must implement abstract method
-        return "Flying high!"
+# Child Class
+class Boat(Vehicle):
+    def move(self):
+        return "Sailing on water"
+
+class Truck(Vehicle):
+    def __init__(self, name, cargo):
+        super().__init__(name)  # Call parent constructor
+        self.cargo = cargo
+
+    def move(self):
+        return "Driving on road"
 
 # Usage
-kitty = Cat("Whiskers")
-print(kitty.speak())  # Meow!
-print(kitty.climb())  # Whiskers climbs a tree
+boat = Boat("Sailboat")
+truck = Truck("Volvo", "Electronics")
+print(boat.move())   # Output: Sailing on water
+print(truck.move())  # Output: Driving on road
 ```
 
 ---
 
-## **3. OOP in Dynamic Language**
-### **Dynamic Typing & Static Checks**
+## **3. OOP in a Dynamic Language**
+### **Dynamic Typing**
+Variables can hold any type, resolved at runtime:
 ```python
-def add(a, b):
-    return a + b
+x = 5       # Integer
+x = "Hello" # String (allowed)
+```
 
-add(2, 3)       # 5 (int)
-add("Hello", " World")  # "Hello World" (str)
-
-# Static Type Checking (via type hints)
+### **Static Type Checking (with `mypy`)**
+```python
+# Add type hints
 def greet(name: str) -> str:
     return f"Hello, {name}"
 
-# Simulate Overloading (using default args)
+greet(42)  # mypy error: Argument 1 has incompatible type "int"
+```
+
+### **Method Overloading (Workaround)**
+Python doesn’t support traditional overloading, but use default parameters:
+```python
 class Calculator:
     def add(self, a, b, c=0):
         return a + b + c
 
 calc = Calculator()
-calc.add(2, 3)    # 5
-calc.add(1, 2, 3) # 6
+print(calc.add(2, 3))    # 5
+print(calc.add(2, 3, 4)) # 9
 ```
 
 ---
 
 ## **4. Polymorphism**
-### **Open-Closed Principle & Duck Typing**
+### **Open-Closed Principle**
+Classes should be open for extension but closed for modification.
 ```python
-class Rectangle:
-    def draw(self):
-        print("Drawing a rectangle")
+class Animal:
+    def sound(self):
+        raise NotImplementedError
 
-class Circle:
-    def draw(self):
-        print("Drawing a circle")
+class Dog(Animal):
+    def sound(self):
+        return "Woof!"
 
-def render_shape(shape):  # Accepts any object with draw()
-    shape.draw()
+class Cat(Animal):
+    def sound(self):
+        return "Meow!"
 
-render_shape(Rectangle())  # Drawing a rectangle
-render_shape(Circle())     # Drawing a circle
+# Common interface
+animals = [Dog(), Cat()]
+for animal in animals:
+    print(animal.sound())  # Woof! Meow!
+```
+
+### **Protocols (Duck Typing)**
+Objects are judged by their methods, not their types:
+```python
+class JSONSerializable:
+    def to_json(self):
+        return {"data": str(self)}
+
+class Product(JSONSerializable):
+    def __init__(self, name):
+        self.name = name
+
+def save_to_file(obj: JSONSerializable):
+    print(obj.to_json())
+
+save_to_file(Product("Laptop"))  # Output: {'data': '<__main__.Product object ...>'}
 ```
 
 ---
 
 ## **5. Encapsulation**
-### **Attribute Visibility & Properties**
+### **Attribute Visibility**
+- **Public**: No underscores (default).
+- **Protected**: Single underscore `_` (convention only).
+- **Private**: Double underscore `__` (name mangling).
+
+### **Code Example**
 ```python
 class BankAccount:
     def __init__(self, balance):
-        self._balance = balance  # Protected (convention)
-        self.__secret = 123       # Private (name mangling)
+        self.__balance = balance  # Private attribute
 
     @property
     def balance(self):
-        return self._balance
+        return self.__balance
 
     @balance.setter
     def balance(self, value):
-        if value < 0:
+        if value >= 0:
+            self.__balance = value
+        else:
             raise ValueError("Balance cannot be negative")
-        self._balance = value
 
-acc = BankAccount(100)
-print(acc.balance)       # 100 (uses property)
-acc.balance = 200        # Valid
-# print(acc.__secret)    # Error: AttributeError (name mangled to _BankAccount__secret)
+account = BankAccount(1000)
+print(account.balance)  # 1000 (uses getter)
+account.balance = 1500   # Uses setter
 ```
 
 ---
 
 ## **6. Abstraction**
-### **Abstract Base Classes (ABCs)**
+Hide complex implementation details, expose only essentials.
 ```python
 from abc import ABC, abstractmethod
 
-class Vehicle(ABC):
+class DatabaseConnector(ABC):
     @abstractmethod
-    def start_engine(self):
+    def connect(self):
         pass
 
-class Car(Vehicle):
-    def start_engine(self):
-        return "Vroom!"
+class MySQLConnector(DatabaseConnector):
+    def connect(self):
+        return "Connected to MySQL"
 
-# vehicle = Vehicle()  # Error: Can't instantiate abstract class
-car = Car()
-print(car.start_engine())  # Vroom!
+# Usage
+connector = MySQLConnector()
+print(connector.connect())  # Output: Connected to MySQL
 ```
 
 ---
 
 ## **7. Classes in Python**
-### **Class Variables & Methods**
+### **Class as an Object**
+Classes are first-class objects (can be modified dynamically).
 ```python
-class MyClass:
-    class_var = 10  # Class-level variable
+class Employee:
+    company = "Tech Corp"  # Class variable
 
-    def __init__(self, instance_var):
-        self.instance_var = instance_var  # Instance-level
+    def __init__(self, name):
+        self.name = name    # Instance variable
 
     @classmethod
-    def class_method(cls):  # Operates on class
-        print(f"Class var: {cls.class_var}")
+    def change_company(cls, new_name):
+        cls.company = new_name
 
     @staticmethod
-    def static_method():  # No cls/self
-        print("Utility method")
+    def calculate_tax(salary):
+        return salary * 0.2
 
-# Access
-MyClass.class_method()    # Class var: 10
-MyClass.static_method()   # Utility method
+# Class method usage
+Employee.change_company("Innovate Inc")
+print(Employee.company)  # Output: Innovate Inc
+
+# Static method usage
+tax = Employee.calculate_tax(50000)
+print(tax)  # Output: 10000.0
 ```
+
+---
+
+## **8. Real-Life Examples**
+### **E-Commerce System**
+- **Class**: `Product`, `Cart`, `Order`.
+- **Inheritance**: `Electronics` → `Product`.
+- **Encapsulation**: Private `__discount` in `Product`.
+- **Polymorphism**: `calculate_price()` in different product categories.
+
+### **Banking Application**
+- **Abstraction**: `Account` base class with `withdraw()` method.
+- **Static Method**: `Account.validate_account_number()`.
+- **Class Variable**: `total_accounts` to track all accounts.
 
 ---
 
 ## **Summary Table**
 
-| Concept               | Python Feature                          | Example                          |
-|-----------------------|-----------------------------------------|----------------------------------|
-| **Class Instantiation** | `__init__` & `self`                   | `obj = MyClass(arg)`             |
-| **Inheritance**       | `class Child(Parent):` & `super()`      | Override methods, `super().__init__()` |
-| **Polymorphism**      | Duck typing & ABCs                     | Shared method names across classes |
-| **Encapsulation**     | `_protected` & `__private` (name mangling) | Use `@property` for controlled access |
-| **Abstraction**       | `abc.ABC` & `@abstractmethod`          | Force method implementation      |
-| **Class Methods**     | `@classmethod` & `cls`                 | Modify class state               |
-| **Static Methods**    | `@staticmethod`                        | Utility functions                |
+| Concept              | Key Features                           | Python Syntax                     |
+|----------------------|----------------------------------------|-----------------------------------|
+| **Class/Objects**    | `__init__`, `self`, `__str__`, `__repr__` | `class Car:`                     |
+| **Inheritance**      | `super()`, `ABC`, method overriding    | `class Truck(Vehicle):`          |
+| **Polymorphism**     | Duck typing, protocols                 | Common method names across classes |
+| **Encapsulation**    | `__private`, `@property`               | `self.__balance`, `@balance.setter` |
+| **Abstraction**      | ABCs, hiding implementation           | `from abc import ABC, abstractmethod` |
+| **Class Methods**    | `@classmethod`, `cls`                  | `def change_company(cls):`       |
+| **Static Methods**   | `@staticmethod`                        | `def calculate_tax(salary):`     |
