@@ -37,4 +37,6 @@ A collection of notes on core Python concepts. Explore the topics below:
 
 ## Design Patterns
 - [Design Patterns](Design%20Patterns.md)
+
+## Design Principles
 - [Design Principles](Design%20Principles.md)
