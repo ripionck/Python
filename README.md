@@ -34,3 +34,6 @@ A collection of notes on core Python concepts. Explore the topics below:
 
 ## Built-in Features
 - [Built-in Functions](./Built-in%20Functions.md)
+
+## Design Patterns
+- [Design Patterns](Design%20Patterns.md)
