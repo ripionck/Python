@@ -15,7 +15,7 @@
 
 ---
 
-## **1. Single Responsibility Principle (SRP)**  
+## **Single Responsibility Principle (SRP)**  
 **Definition**: A class should have only one reason to change (i.e., one responsibility).  
 
 ### ❌ Bad Example:
@@ -47,7 +47,7 @@ class EmailService:
 
 ---
 
-## **2. Open/Closed Principle (OCP)**  
+## **Open/Closed Principle (OCP)**  
 **Definition**: Classes should be **open for extension** but **closed for modification**.  
 
 ### ❌ Bad Example:
@@ -84,7 +84,7 @@ class AreaCalculator:
 
 ---
 
-## **3. Liskov Substitution Principle (LSP)**  
+## **Liskov Substitution Principle (LSP)**  
 **Definition**: Subtypes must be substitutable for their base types.  
 
 ### ❌ Bad Example:
@@ -113,7 +113,7 @@ class Square(Shape): ...
 
 ---
 
-## **4. Interface Segregation Principle (ISP)**  
+## **Interface Segregation Principle (ISP)**  
 **Definition**: Clients should not depend on interfaces they don’t use.  
 
 ### ❌ Bad Example:
@@ -147,7 +147,7 @@ class Robot(Workable): ...
 
 ---
 
-## **5. Dependency Inversion Principle (DIP)**  
+## **Dependency Inversion Principle (DIP)**  
 **Definition**: Depend on abstractions, not concrete implementations.  
 
 ### ❌ Bad Example:
